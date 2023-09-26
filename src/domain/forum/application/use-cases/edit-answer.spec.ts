@@ -2,6 +2,7 @@ import { InMemoryAnswersRepository } from "test/repositories/in-memory-answers-r
 import { makeAnswer } from "test/factories/make-answer"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id"
 import { EditAnswerUseCase } from "./edit-answer"
+import { NotAllowedError } from "./errors/not-allowed-error"
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: EditAnswerUseCase
@@ -17,15 +18,18 @@ describe('Edit Answer', () => {
 
         await inMemoryAnswersRepository.create(newAnswer)
 
-        const { answer } = await sut.execute({
+        const result = await sut.execute({
             authorId: newAnswer.authorId.toValue(),
             answerId: newAnswer.id.toValue(),
             content: 'Novo Conteudo',
         })
 
-        expect(answer).toMatchObject({
-            content: 'Novo Conteudo',
-        })
+        expect(result.isRight()).toBe(true)
+        if(result.isRight()){
+            expect(result.value.answer).toMatchObject({
+                content: 'Novo Conteudo',
+            })
+        }
     })
 
     it('should not be able to delete a answer from another user', async() => {
@@ -35,12 +39,13 @@ describe('Edit Answer', () => {
 
         await inMemoryAnswersRepository.create(newAnswer)
 
-        expect(()=>{
-            return sut.execute({
-                authorId: 'author-2',
-                answerId: newAnswer.id.toValue(),
-                content: 'Novo Conteudo',
-            })
-        }).rejects.toBeInstanceOf(Error)
+        const result = await sut.execute({
+            authorId: 'author-2',
+            answerId: newAnswer.id.toValue(),
+            content: 'Novo Conteudo',
+        })
+
+        expect(result.isLeft()).toBe(true)
+        expect(result.value).toBeInstanceOf(NotAllowedError)
     })
 })
