@@ -4,8 +4,8 @@ import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-r
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: AnswerQuestionUseCase
 
-describe('Create Question', () =>{
-  beforeEach(()=>{
+describe('Create Question', () => {
+  beforeEach(() => {
     inMemoryAnswersRepository = new InMemoryAnswersRepository()
     sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
   })
@@ -16,10 +16,11 @@ describe('Create Question', () =>{
       instructorId: '1',
       content: 'Nova resposta',
     })
-  
+
     expect(result.isRight()).toBe(true)
     expect(result.value?.answer.content).toEqual('Nova resposta')
-    expect(inMemoryAnswersRepository.items[0].id).toEqual(result.value?.answer.id)
+    expect(inMemoryAnswersRepository.items[0].id).toEqual(
+      result.value?.answer.id,
+    )
   })
 })
-

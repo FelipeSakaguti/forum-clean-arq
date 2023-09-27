@@ -11,7 +11,7 @@ interface CommentOnQuestionUseCaseRequest {
   content: string
 }
 
-type CommentOnQuestionUseCaseResponse = Either <
+type CommentOnQuestionUseCaseResponse = Either<
   ResourceNotFoundError,
   {
     questionComment: QuestionComment
@@ -32,7 +32,7 @@ export class CommentOnQuestionUseCase {
     const question = await this.questionsRepository.findById(questionId)
 
     if (!question) {
-      return left(new ResourceNotFoundError)
+      return left(new ResourceNotFoundError())
     }
 
     const questionComment = QuestionComment.create({

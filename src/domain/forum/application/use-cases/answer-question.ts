@@ -10,7 +10,7 @@ interface AnswerQuestionUseCaseRequest {
 }
 
 type AnswerQuestionUseCaseResponse = Either<
-  null,  
+  null,
   {
     answer: Answer
   }
@@ -32,6 +32,6 @@ export class AnswerQuestionUseCase {
 
     await this.answersRepository.create(answer)
 
-    return right({answer})
+    return right({ answer })
   }
 }

@@ -3,7 +3,6 @@ import { Slug } from './value-objetcts/slug'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import dayjs from 'dayjs'
-import { QuestionAttachment } from './question-attachment'
 import { QuestionAttachmentList } from './question-attachment-list'
 
 export interface QuestionProps {
@@ -83,7 +82,7 @@ export class Question extends AggregateRoot<QuestionProps> {
   }
 
   static create(
-    props: Optional<QuestionProps, 'createdAt' | 'slug' | 'attachments' >,
+    props: Optional<QuestionProps, 'createdAt' | 'slug' | 'attachments'>,
     id?: UniqueEntityId,
   ) {
     const question = new Question(

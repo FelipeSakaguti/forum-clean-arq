@@ -22,4 +22,4 @@ export function makeAnswerComment(
   )
 
   return answer
-}''
+}

@@ -12,7 +12,7 @@ interface CommentOnAnswerUseCaseRequest {
 }
 
 type CommentOnAnswerUseCaseResponse = Either<
-  ResourceNotFoundError,  
+  ResourceNotFoundError,
   {
     answerComment: AnswerComment
   }
@@ -32,7 +32,7 @@ export class CommentOnAnswerUseCase {
     const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) {
-      return left(new ResourceNotFoundError)
+      return left(new ResourceNotFoundError())
     }
 
     const answerComment = AnswerComment.create({
